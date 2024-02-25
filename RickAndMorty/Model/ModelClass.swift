@@ -1,7 +1,15 @@
 import Foundation
 
 struct Result: Decodable {
+    var info: Info
     var results: [Character]
+}
+
+struct Info: Decodable {
+    var count: Int
+    var pages: Int
+    var next: String?
+    var prev: String?
 }
 
 struct Character: Decodable {
@@ -23,4 +31,11 @@ struct Location: Decodable {
 
 struct Origin: Decodable {
     var name: String
+}
+
+
+struct Episode: Decodable {
+    var id: Int
+    var name: String
+    var air_date: String
 }

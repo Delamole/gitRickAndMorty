@@ -3,6 +3,7 @@ import UIKit
 class ViewController: UIViewController {
 
     var characters: [Character] = []
+    var character: Character?
     private var charactersViewModel = CharacterViewModel()
     
     @IBOutlet weak var charactersTable: UITableView!
@@ -18,14 +19,24 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource, UITableViewDelegate{
     
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-          return charactersViewModel.numberOrRows()
+//          return charactersViewModel.numberOrRows()
+          return charactersViewModel.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
        let cell = tableView.dequeueReusableCell(withIdentifier: "CharacterTableViewCell") as! CharacterTableViewCell
 
-        cell.initCell(item: charactersViewModel.getCharacter(index: indexPath.row)!)
-       
+        if(charactersViewModel.characterList?.count ?? 0 < charactersViewModel.count ?? 0) {
+            if indexPath.row == (charactersViewModel.numberOrRows() ?? 0)-1{
+                    charactersViewModel.callNextService() { (data) in
+                        
+                            self.charactersTable.reloadData()
+                    }
+                }
+            }
+        
+        cell.initCell(item: self.charactersViewModel.characterList![indexPath.row])
+   
         return cell
     }
     

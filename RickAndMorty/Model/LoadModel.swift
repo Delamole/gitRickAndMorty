@@ -7,16 +7,46 @@ var url_character = "https://rickandmortyapi.com/api/character"
 
 class LoadModel: NSObject {
     
-    static var shared = LoadModel()
+//    static var shared = LoadModel()
     
     func loadCharacter(completion: @escaping (Result) -> Void){
         Loader().fetch(structData: Result.self, url: url_character, httpMethod: HttpMethod.get, parameters: nil, completion: { (address) in
+            DispatchQueue.main.async {
+                print(address.info)
+                completion(address)
+            }
+            
+        },
+            completionError: {
+            (errorReq) in
+            print("errorReq: \(errorReq)")
+            
+        })
+    }
+    
+    func loadNextCharacter(url: String, completion: @escaping (Result) -> Void){
+        Loader().fetch(structData: Result.self, url: url, httpMethod: HttpMethod.get, parameters: nil, completion: { (address) in
+            DispatchQueue.main.async {
+                print(address.info)
+                completion(address)
+            }
+            
+        },
+            completionError: {
+            (errorReq) in
+            print("errorReq: \(errorReq)")
+            
+        })
+    }
+    
+    func loadEpisode(url: String, completion: @escaping (Episode) -> Void){
+        Loader().fetch(structData: Episode.self, url: url, httpMethod: HttpMethod.get, parameters: nil, completion: { (address) in
             DispatchQueue.main.async {
                 completion(address)
             }
             
         },
-                       completionError: {
+            completionError: {
             (errorReq) in
             print("errorReq: \(errorReq)")
             

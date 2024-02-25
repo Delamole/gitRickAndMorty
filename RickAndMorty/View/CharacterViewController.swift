@@ -18,6 +18,7 @@ class CharacterViewController: UIViewController {
     @IBOutlet weak var genderCharacter: UILabel!
     @IBOutlet weak var nameCharacter: UILabel!
     
+    private var charactersViewModel = CharacterViewModel()
     var character: Character? = nil
     var episodes: [String] = []
    
@@ -30,9 +31,14 @@ class CharacterViewController: UIViewController {
         locationCharacter.text = character?.location.name
         originCharacter.text = character?.origin.name
         episodes = character?.episode ?? [""]
-        LoadModel.shared.loadImage(icon: character?.image ?? "") { (data) in
-            self.imageCharacter.image = data
-        }
+//        LoadModel.shared.loadImage(icon: character?.image ?? "") { (data) in
+//            self.imageCharacter.image = data
+//        }
+        charactersViewModel.loadCharacterImage(icon: character?.image ?? "",image: imageCharacter)
+        
+//        charactersViewModel.callEpisode(url: <#T##String#>){ (data) in
+//            self.charactersTable.reloadData()
+//        }
         episodesTable.reloadData()
         // Do any additional setup after loading the view.
     }
@@ -48,7 +54,10 @@ extension CharacterViewController: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EpisodesTableViewCell") as! EpisodesTableViewCell
         
-        cell.urlOfEpisode.text = episodes[indexPath.row]
+        charactersViewModel.callEpisode(url: episodes[indexPath.row]){ (data) in
+            cell.urlOfEpisode.text = "Name: \(data.name), date: \(data.air_date)"
+        }
+        
         
         return cell
     }
