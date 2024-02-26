@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  RickAndMorty
-//
-//  Created by Владислав Бочаров on 16.02.2024.
-//
-
 import UIKit
 
 @main

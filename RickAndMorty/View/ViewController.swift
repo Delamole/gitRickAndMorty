@@ -19,8 +19,8 @@ class ViewController: UIViewController {
 extension ViewController: UITableViewDataSource, UITableViewDelegate{
     
       func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//          return charactersViewModel.numberOrRows()
-          return charactersViewModel.count ?? 0
+          return charactersViewModel.characterList?.count ?? 0
+//          return charactersViewModel.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

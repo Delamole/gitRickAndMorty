@@ -1,10 +1,3 @@
-//
-//  CharacterViewController.swift
-//  RickAndMorty
-//
-//  Created by Владислав Бочаров on 17.02.2024.
-//
-
 import UIKit
 
 class CharacterViewController: UIViewController {
@@ -24,6 +17,7 @@ class CharacterViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         nameCharacter.text = character?.name
         genderCharacter.text = character?.gender
         statusCharacter.text = character?.status
@@ -31,16 +25,10 @@ class CharacterViewController: UIViewController {
         locationCharacter.text = character?.location.name
         originCharacter.text = character?.origin.name
         episodes = character?.episode ?? [""]
-//        LoadModel.shared.loadImage(icon: character?.image ?? "") { (data) in
-//            self.imageCharacter.image = data
-//        }
+
         charactersViewModel.loadCharacterImage(icon: character?.image ?? "",image: imageCharacter)
-        
-//        charactersViewModel.callEpisode(url: <#T##String#>){ (data) in
-//            self.charactersTable.reloadData()
-//        }
+
         episodesTable.reloadData()
-        // Do any additional setup after loading the view.
     }
     
 
@@ -57,8 +45,9 @@ extension CharacterViewController: UITableViewDataSource, UITableViewDelegate{
         charactersViewModel.callEpisode(url: episodes[indexPath.row]){ (data) in
             cell.urlOfEpisode.text = "Name: \(data.name), date: \(data.air_date)"
         }
-        
-        
         return cell
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
